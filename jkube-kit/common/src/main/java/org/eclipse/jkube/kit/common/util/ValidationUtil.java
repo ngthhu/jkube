@@ -23,27 +23,28 @@ import java.util.Set;
  */
 public class ValidationUtil {
 
-    private ValidationUtil() { }
+  private ValidationUtil() {
+  }
 
-    public static String createValidationMessage(Set<ConstraintViolation<?>> constraintViolations) {
-        if (constraintViolations.isEmpty()) {
-            return "No Constraint Validations!";
-        }
-        StringBuilder builder = new StringBuilder("Constraint Validations: ");
-        for (ConstraintViolation<?> violation : constraintViolations) {
-            if (builder.length() > 0) {
-                builder.append(", ");
-            }
-            Object leafBean = violation.getLeafBean();
-            if (leafBean instanceof HasMetadata) {
-                HasMetadata hasMetadata = (HasMetadata) leafBean;
-                ObjectMeta metadata = hasMetadata.getMetadata();
-                if (metadata != null) {
-                    leafBean = "" + hasMetadata.getKind() + ": " + metadata;
-                }
-            }
-            builder.append(violation.getPropertyPath() + " " + violation.getMessage() + " on bean: " + leafBean);
-        }
-        return builder.toString();
+  public static String createValidationMessage(Set<ConstraintViolation<?>> constraintViolations) {
+    if (constraintViolations.isEmpty()) {
+      return "No Constraint Validations!";
     }
+    StringBuilder builder = new StringBuilder("Constraint Validations: ");
+    for (ConstraintViolation<?> violation : constraintViolations) {
+      if (builder.length() > 0) {
+        builder.append(", ");
+      }
+      Object leafBean = violation.getLeafBean();
+      if (leafBean instanceof HasMetadata) {
+        HasMetadata hasMetadata = (HasMetadata) leafBean;
+        ObjectMeta metadata = hasMetadata.getMetadata();
+        if (metadata != null) {
+          leafBean = "" + hasMetadata.getKind() + ": " + metadata;
+        }
+      }
+      builder.append(violation.getPropertyPath() + " " + violation.getMessage() + " on bean: " + leafBean);
+    }
+    return builder.toString();
+  }
 }
